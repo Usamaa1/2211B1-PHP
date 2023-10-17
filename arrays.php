@@ -28,17 +28,44 @@
 
 
 
+    $user = [
+        [
+            "name" => "Usama",
+            "city" => "karachi",
+            "country" => "Pakistan" 
+        ],
+        [
+            "name" => "Usama",
+            "city" => "karachi",
+            "country" => "Pakistan" 
+        ],
+        [
+            "name" => "Usama",
+            "city" => "karachi",
+            "country" => "Pakistan" 
+        ]
+    ];
+
+
+
     echo "<pre>";
     print_r($user);
     echo "</pre>";
 
 
 
-    echo $user['city'] . "<br>";
+    // echo $user['name'] . "<br>";
+    echo $user[1]['name'] . "<br>";
     echo "_________________________________________________ <br>";
 
-    foreach($user as $key => $val){
-        echo "<br> $key = $val <br>";
+    // foreach($user as $key => $val){
+    //     echo "<br> $key = $val <br>";
+    // }
+
+    foreach($user as $val){
+        echo $val['name'] . "<br>";
+        echo $val['city'] . "<br>";
+        echo $val['country'] . "<br>";
     }
 
 
