@@ -48,25 +48,25 @@
 
 
 
-    echo "<pre>";
-    print_r($user);
-    echo "</pre>";
+    // echo "<pre>";
+    // print_r($user);
+    // echo "</pre>";
 
 
 
     // echo $user['name'] . "<br>";
-    echo $user[1]['name'] . "<br>";
+    // echo $user[1]['name'] . "<br>";
     echo "_________________________________________________ <br>";
 
     // foreach($user as $key => $val){
     //     echo "<br> $key = $val <br>";
     // }
 
-    foreach($user as $val){
-        echo $val['name'] . "<br>";
-        echo $val['city'] . "<br>";
-        echo $val['country'] . "<br>";
-    }
+    // foreach($user as $val){
+    //     echo $val['name'] . "<br>";
+    //     echo $val['city'] . "<br>";
+    //     echo $val['country'] . "<br>";
+    // }
 
 
 
@@ -75,6 +75,30 @@
 
 
 
+    $numbers = [3,4,5,67,12];
+
+    // array_push($numbers,4555);
+    // array_pop($numbers);
+    $flipped = array_flip($numbers);
+    $reverse = array_reverse($numbers);
+
+
+
+    
+    echo "<pre>";
+    print_r($numbers);
+    echo "</pre>";
+
+
+
+    echo "<pre>";
+    print_r($flipped);
+    echo "</pre>";
+    
+    
+    echo "<pre>";
+    print_r($reverse);
+    echo "</pre>";
 
 
 
