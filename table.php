@@ -1,24 +1,24 @@
 <?php 
 
     $employees = [
-        [
-            'id' => '1',
-            'Name' => 'Arif',
-            'Designation' => 'Accountant',
-            'Company' => 'Telsoft'
-        ],
-        [
-            'id' => '2',
-            'Name' => 'Haris',
-            'Designation' => 'Peon',
-            'Company' => '10Pearls'
-        ],
-        [
-            'id' => '3',
-            'Name' => 'Zahid',
-            'Designation' => 'Front Desk Officer',
-            'Company' => 'ArphaTech'
-        ]
+            [
+                'id' => '1',
+                'Name' => 'Arif',
+                'Designation' => 'Accountant',
+                'Company' => 'Telsoft'
+            ],
+            [
+                'id' => '2',
+                'Name' => 'Haris',
+                'Designation' => 'Peon',
+                'Company' => '10Pearls'
+            ],
+            [
+                'id' => '3',
+                'Name' => 'Zahid',
+                'Designation' => 'Front Desk Officer',
+                'Company' => 'ArphaTech'
+            ]
         ];
 
 
