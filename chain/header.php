@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -65,7 +66,13 @@ https://templatemo.com/tm-570-chain-app-dev
               <li class="scroll-to-section"><a href="services.php">Services</a></li>
               <li class="scroll-to-section"><a href="about.php">About</a></li>
               <li class="scroll-to-section"><a href="pricing.php">Pricing</a></li>
+              <?php if(isset($_SESSION['email'])){ ?>
+                <li><div class="gradient-button"><a href="login.php"><i class="fa fa-sign-in-alt"></i><?php echo $_SESSION['email']; ?></a></div></li> 
+
+                <?php }else{ ?>
               <li><div class="gradient-button"><a href="login.php"><i class="fa fa-sign-in-alt"></i> Sign In Now</a></div></li> 
+              <?php } ?>
+            
             </ul>        
             <a class='menu-trigger'>
                 <span>Menu</span>

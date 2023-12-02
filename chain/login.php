@@ -1,8 +1,10 @@
+<?php session_start(); ?>
 <?php require 'connection/connection.php' ?>
 
 <?php 
 
 
+// signup code start
 if(isset($_POST['signup']))
 {
 
@@ -34,7 +36,7 @@ if(isset($_POST['signup']))
       $signup_prepare->bindParam(':password', $password_hash);
       $signup_prepare->execute();
       echo "<script>alert('User Registerd Successfully')</script>";
-
+      // header('location:login.php');
 
 
 
@@ -56,9 +58,61 @@ if(isset($_POST['signup']))
 
 
 }
+// signup code end
+
+$login_query = "SELECT * FROM `signup`";
+$login_prepare = $connection->prepare($login_query);
+$login_prepare->execute();
+$user_data = $login_prepare->fetchAll(PDO::FETCH_ASSOC);
+
+print_r($user_data);
+
+// Login Code Start
+if(isset($_POST['loginBtn']))
+{
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  if(empty($email) || empty($password))
+  {
+    echo "<script>alert('Kindly fill all the fields')</script>";
+  }
+  else
+  {
+
+    $userNotFound = false;
+   
+  foreach($user_data as $user)
+  {
+    if($user['email'] === $email && password_verify($password, $user['password']))
+    {
+    echo "<script>alert('Login Successfully')</script>";
+    $_SESSION['email'] = $email;
+      header('location:index.php');
+    }
+    else
+    {
+    $userNotFound = true;
+    
+    }
+  }
+
+  if($userNotFound)
+  {
+    echo "<script>alert('Incorrect username or password')</script>";
+    
+  }
 
 
 
+
+
+
+
+
+
+  }
+
+}
 
 
 
@@ -84,11 +138,11 @@ if(isset($_POST['signup']))
     <input type="checkbox" id="check">
     <div class="login form">
       <header>Login</header>
-      <form action="#">
-        <input type="text" placeholder="Enter your email">
-        <input type="password" placeholder="Enter your password">
+      <form action="login.php" method="post">
+        <input type="text" placeholder="Enter your email" name="email">
+        <input type="password" placeholder="Enter your password" name="password">
         <a href="#">Forgot password?</a>
-        <input type="button" class="button" value="Login">
+        <input type="submit" class="button" value="Login" name="loginBtn">
       </form>
       <div class="signup">
         <span class="signup">Don't have an account?
