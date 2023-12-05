@@ -1,55 +1,78 @@
 <?php session_start(); ?>
 <?php require 'connection/connection.php' ?>
 
-<?php 
+<?php
+
+if (isset($_SESSION['email'])) {
+  header('location:index.php');
+}
+
+
+
+
+
+
 
 
 // signup code start
-if(isset($_POST['signup']))
-{
+if (isset($_POST['signup'])) {
+
+
+
+
 
   $signUpEmail = $_POST['signUpEmail'];
   $signUpPassword = $_POST['signUpPassword'];
   $signUpConfirmPassword = $_POST['signUpConfirmPassword'];
-  
+
   $password_hash = password_hash($signUpPassword, PASSWORD_BCRYPT);
 
 
+  $view_query = "SELECT * FROM `signup` where `email` = :email";
 
-  if(empty($signUpEmail) || empty($signUpPassword) || empty($signUpConfirmPassword))
+  $view_prepare = $connection->prepare($view_query);
+  $view_prepare->bindParam(':email', $signUpEmail);
+  $view_prepare->execute();
+
+  $emailExist = $view_prepare->fetch(PDO::FETCH_ASSOC);
+
+  if(empty($emailExist))
   {
+    if (empty($signUpEmail) || empty($signUpPassword) || empty($signUpConfirmPassword)) {
 
 
-    echo "<script>alert('Kindly fill all the feilds')</script>";
-
+      echo "<script>alert('Kindly fill all the feilds')</script>";
+    } else {
+      if ($signUpPassword == $signUpConfirmPassword) {
+  
+  
+        $signup_query = "INSERT INTO `signup`(`email`, `password`) VALUES (:email, :password)";
+  
+        $signup_prepare = $connection->prepare($signup_query);
+        $signup_prepare->bindParam(':email', $signUpEmail);
+        $signup_prepare->bindParam(':password', $password_hash);
+        $signup_prepare->execute();
+        echo "<script>alert('User Registerd Successfully')</script>";
+        // header('location:login.php');
+  
+  
+  
+  
+      } else {
+  
+        echo "<script>alert('Kindly verify your password')</script>";
+      }
+    }
   }
   else
   {
-    if($signUpPassword == $signUpConfirmPassword)
-    {
-  
-
-      $signup_query = "INSERT INTO `signup`(`email`, `password`) VALUES (:email, :password)";
-
-      $signup_prepare = $connection->prepare($signup_query);
-      $signup_prepare->bindParam(':email', $signUpEmail);
-      $signup_prepare->bindParam(':password', $password_hash);
-      $signup_prepare->execute();
-      echo "<script>alert('User Registerd Successfully')</script>";
-      // header('location:login.php');
-
-
-
-
-    }
-    else
-    {
-
-      echo "<script>alert('Kindly verify your password')</script>";
-    }
-
+    echo "<script>alert('Your email is already exist!')</script>";
 
   }
+
+
+
+
 
 
 
@@ -68,50 +91,32 @@ $user_data = $login_prepare->fetchAll(PDO::FETCH_ASSOC);
 print_r($user_data);
 
 // Login Code Start
-if(isset($_POST['loginBtn']))
-{
+if (isset($_POST['loginBtn'])) {
   $email = $_POST['email'];
   $password = $_POST['password'];
-  if(empty($email) || empty($password))
-  {
+  if (empty($email) || empty($password)) {
     echo "<script>alert('Kindly fill all the fields')</script>";
-  }
-  else
-  {
+  } else {
 
     $userNotFound = false;
-   
-  foreach($user_data as $user)
-  {
-    if($user['email'] === $email && password_verify($password, $user['password']))
+
+    foreach ($user_data as $user) 
     {
-    echo "<script>alert('Login Successfully')</script>";
-    $_SESSION['email'] = $email;
-      header('location:index.php');
+      if ($user['email'] === $email && password_verify($password, $user['password'])) {
+        echo "<script>alert('Login Successfully')</script>";
+        $_SESSION['email'] = $email;
+        header('location:index.php');
+      } 
+      else 
+      {
+        $userNotFound = true;
+      }
     }
-    else
-    {
-    $userNotFound = true;
-    
+
+    if ($userNotFound) {
+      echo "<script>alert('Incorrect username or password')</script>";
     }
   }
-
-  if($userNotFound)
-  {
-    echo "<script>alert('Incorrect username or password')</script>";
-    
-  }
-
-
-
-
-
-
-
-
-
-  }
-
 }
 
 
@@ -125,6 +130,7 @@ if(isset($_POST['loginBtn']))
 <!DOCTYPE html>
 <!---Coding By CoderGirl | www.codinglabweb.com--->
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -133,6 +139,7 @@ if(isset($_POST['loginBtn']))
   <!---Custom CSS File--->
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
   <div class="container">
     <input type="checkbox" id="check">
@@ -146,7 +153,7 @@ if(isset($_POST['loginBtn']))
       </form>
       <div class="signup">
         <span class="signup">Don't have an account?
-         <label for="check">Signup</label>
+          <label for="check">Signup</label>
         </span>
       </div>
     </div>
@@ -160,11 +167,12 @@ if(isset($_POST['loginBtn']))
       </form>
       <div class="signup">
         <span class="signup">Already have an account?
-         <label for="check">Login</label>
+          <label for="check">Login</label>
         </span>
- 
+
       </div>
     </div>
   </div>
 </body>
+
 </html>

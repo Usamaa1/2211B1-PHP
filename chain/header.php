@@ -1,5 +1,18 @@
 <?php session_start(); ?>
 
+<?php 
+
+  if(!isset($_SESSION['email']))
+  {
+    header('location: login.php');
+  }
+
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,7 +80,15 @@ https://templatemo.com/tm-570-chain-app-dev
               <li class="scroll-to-section"><a href="about.php">About</a></li>
               <li class="scroll-to-section"><a href="pricing.php">Pricing</a></li>
               <?php if(isset($_SESSION['email'])){ ?>
-                <li><div class="gradient-button"><a href="login.php"><i class="fa fa-sign-in-alt"></i><?php echo $_SESSION['email']; ?></a></div></li> 
+                <li><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <?php echo $_SESSION['email'] ?>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+          </ul></li> 
 
                 <?php }else{ ?>
               <li><div class="gradient-button"><a href="login.php"><i class="fa fa-sign-in-alt"></i> Sign In Now</a></div></li> 
